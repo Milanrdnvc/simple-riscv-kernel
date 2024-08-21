@@ -41,3 +41,13 @@ int thread_exit() {
     int volatile retVal = (int)RISCV::r_a0();
     return retVal;
 }
+
+char getc() {
+    sysCall(0x41);
+    char volatile retVal = (char)RISCV::r_a0();
+    return retVal;
+}
+
+void putc(char c) {
+    sysCall(0x42, c);
+}

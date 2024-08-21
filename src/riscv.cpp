@@ -78,6 +78,19 @@ void RISCV::handleInterruptRoutine() {
                 TCB::dispatch();
                 break;
             }
+            // getc
+            case 0x41: {
+                char retVal = __getc();
+
+                RISCV::returnSysCall((size_t)retVal);
+                break;
+            }
+            // putc
+            case 0x42: {
+                char c = (char)arg1;
+                __putc(c);
+                break;
+            }
             // unsupported system call code
             default: {
                 // printString("Unsupported system call code.");
