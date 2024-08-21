@@ -1,7 +1,6 @@
 #include "../h/sem.hpp"
 #include "../h/printing.hpp"
 
-
 int Sem::semWait() {
     if (--val < 0) block();
     if (this->closed) return -1;

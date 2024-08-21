@@ -3,6 +3,7 @@
 #include "../lib/console.h"
 #include "../h/tcb.hpp"
 #include "../h/printing.hpp"
+#include "../h/sem.hpp"
 
 void RISCV::popSppSpie() {
      mc_sstatus(SSTATUS_SPP);
@@ -77,6 +78,48 @@ void RISCV::handleInterruptRoutine() {
             // thread_dispatch
             case 0x13: {
                 TCB::dispatch();
+                break;
+            }
+            // sem_open
+            case 0x21: {
+                Sem** handle = (Sem**)arg1;
+                unsigned init = (unsigned)arg2;
+                int retVal = Sem::createSemaphore(handle, init);
+
+                RISCV::returnSysCall((size_t)retVal);
+                break;
+            }
+            // sem_close
+            case 0x22: {
+                Sem* id = (Sem*)arg1;
+                int retVal = Sem::closeSemaphore(id);
+                delete id;
+
+                RISCV::returnSysCall((size_t)retVal);
+                break;
+            }
+            // sem_wait
+            case 0x23: {
+                Sem* id = (Sem*)arg1;
+                int retVal = id->semWait();
+
+                RISCV::returnSysCall((size_t)retVal);
+                break;
+            }
+            // sem_signal
+            case 0x24: {
+                Sem* id = (Sem*)arg1;
+                int retVal = id->semSignal();
+
+                RISCV::returnSysCall((size_t)retVal);
+                break;
+            }
+            // sem_trywait
+            case 0x26: {
+                Sem* id = (Sem*)arg1;
+                int retVal = id->semTryWait();
+
+                RISCV::returnSysCall((size_t)retVal);
                 break;
             }
             // getc
