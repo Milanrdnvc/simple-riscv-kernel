@@ -33,7 +33,7 @@ private:
 
     Elem *head, *tail;
 public:
-    List() : head(0), tail(0), curr(0) {}
+    List() : head(0), tail(0) {}
 
     List(const List<T> &) = delete;
 
