@@ -2,6 +2,7 @@
 #include "../h/memoryAllocator.hpp"
 #include "../lib/console.h"
 #include "../h/tcb.hpp"
+#include "../h/printing.hpp"
 
 void RISCV::popSppSpie() {
      mc_sstatus(SSTATUS_SPP);
@@ -93,7 +94,7 @@ void RISCV::handleInterruptRoutine() {
             }
             // unsupported system call code
             default: {
-                // printString("Unsupported system call code.");
+                printString("Unsupported system call code.");
                 break;
             }
         }
@@ -102,12 +103,12 @@ void RISCV::handleInterruptRoutine() {
         w_sstatus(sstatus);
     } else {
         // unexpected trap cause
-//        size_t volatile sepc = r_sepc();
-//        size_t volatile scause = r_scause();
-//        printString("Exception! scause: ");
-//        printInt(scause);
-//        printString("\n sepc: ");
-//        printInt(sepc);
+        size_t volatile sepc = r_sepc();
+        size_t volatile scause = r_scause();
+        printString("Exception! scause: ");
+        printInt(scause);
+        printString("\n sepc: ");
+        printInt(sepc);
         while (true) {}
     }
 }
