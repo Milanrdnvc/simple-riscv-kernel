@@ -19,3 +19,25 @@ int mem_free(void* startAddr) {
     int volatile retVal = (int)RISCV::r_a0();
     return retVal;
 }
+
+int thread_create(thread_t* handle, void(*start_routine)(void*), void* arg) {
+    if (!handle) return -1;
+    void* stackSpace = nullptr;
+    if (start_routine) {
+        stackSpace = mem_alloc(DEFAULT_STACK_SIZE);
+        if (!stackSpace) return -1;
+    }
+    sysCall(0x11, (size_t)handle, (size_t)start_routine, (size_t)arg, (size_t)stackSpace);
+    int volatile retVal = (int)RISCV::r_a0();
+    return retVal;
+}
+
+void thread_dispatch() {
+    sysCall(0x13);
+}
+
+int thread_exit() {
+    sysCall(0x12);
+    int volatile retVal = (int)RISCV::r_a0();
+    return retVal;
+}
