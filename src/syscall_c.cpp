@@ -77,8 +77,7 @@ int sem_trywait(sem_t id) {
 }
 
 int sem_timedwait(sem_t id, time_t timeout) {
-    if (!id) return -3;
-    if (timeout <= 0) return -2;
+    if (!id || timeout <= 0) return -3; // invalid arguments (SEMDEAD == -1, TIMEOUT == -2)
     sysCall(0x25, (size_t)id, (size_t)timeout);
     int volatile retVal = (int)RISCV::r_a0();
     return retVal;
