@@ -76,6 +76,14 @@ int sem_trywait(sem_t id) {
     return retVal;
 }
 
+int sem_timedwait(sem_t id, time_t timeout) {
+    if (!id) return -3;
+    if (timeout <= 0) return -2;
+    sysCall(0x25, (size_t)id, (size_t)timeout);
+    int volatile retVal = (int)RISCV::r_a0();
+    return retVal;
+}
+
 char getc() {
     sysCall(0x41);
     char volatile retVal = (char)RISCV::r_a0();

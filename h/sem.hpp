@@ -15,6 +15,8 @@ public:
 
     int semTryWait();
 
+    int semTimedWait(time_t timeout);
+
     static int createSemaphore(Sem** handle, unsigned init);
 
     static int closeSemaphore(Sem* id);

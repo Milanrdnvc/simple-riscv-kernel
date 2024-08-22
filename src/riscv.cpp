@@ -114,6 +114,15 @@ void RISCV::handleInterruptRoutine() {
                 RISCV::returnSysCall((size_t)retVal);
                 break;
             }
+            // sem_timedwait
+            case 0x25: {
+                Sem* id = (Sem*)arg1;
+                time_t timeout = (time_t)arg2;
+                int retVal = id->semTimedWait(timeout);
+
+                RISCV::returnSysCall((size_t)retVal);
+                break;
+            }
             // sem_trywait
             case 0x26: {
                 Sem* id = (Sem*)arg1;

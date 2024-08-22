@@ -32,6 +32,10 @@ int Sem::semTryWait() {
     return 1;
 }
 
+int Sem::semTimedWait(time_t timeout) {
+    return 0;
+}
+
 int Sem::createSemaphore(Sem** handle, unsigned init) {
     Sem* sem = new Sem(init);
     if (!sem) return -1;
