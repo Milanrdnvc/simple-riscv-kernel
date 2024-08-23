@@ -1,6 +1,8 @@
 #include "../h/sem.hpp"
 #include "../h/printing.hpp"
 
+List<Sem> Sem::allSemaphores;
+
 int Sem::semWait() {
     if (--val < 0) block();
     if (this->closed) return -1;
@@ -33,6 +35,12 @@ int Sem::semTryWait() {
 }
 
 int Sem::semTimedWait(time_t timeout) {
+    if (--val < 0) {
+        this->timeout = timeout;
+        block();
+    }
+    if (this->closed) return -1;
+    if (this->timedOut) return -2;
     return 0;
 }
 
@@ -40,6 +48,7 @@ int Sem::createSemaphore(Sem** handle, unsigned init) {
     Sem* sem = new Sem(init);
     if (!sem) return -1;
     *handle = sem;
+    Sem::allSemaphores.addFirst(sem);
     return 0;
 }
 

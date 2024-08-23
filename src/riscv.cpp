@@ -23,6 +23,20 @@ void RISCV::handleInterruptRoutine() {
         // timer interrupt
         mc_sip(SIP_SSIP);
 
+        Sem::allSemaphores.setFirst();
+
+        while (Sem::allSemaphores.getCurrent()) {
+            if (Sem::allSemaphores.getCurrent()->timeout < 0) continue;
+            Sem::allSemaphores.getCurrent()->timeout--;
+            if (Sem::allSemaphores.getCurrent()->timeout == 0) {
+                while (Sem::allSemaphores.getCurrent()->blocked.peekFirst()) {
+                    Scheduler::put(Sem::allSemaphores.getCurrent()->blocked.removeFirst());
+                }
+                Sem::allSemaphores.getCurrent()->timedOut = true;
+            }
+            Sem::allSemaphores.next();
+        }
+
         TCB::timeSliceCounter++;
 
         if (TCB::timeSliceCounter >= DEFAULT_TIME_SLICE) {

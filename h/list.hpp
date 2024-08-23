@@ -31,13 +31,28 @@ private:
         }
     };
 
-    Elem *head, *tail;
+    Elem *head, *tail, *curr;
 public:
-    List() : head(0), tail(0) {}
+    List() : head(0), tail(0), curr(0) {}
 
     List(const List<T> &) = delete;
 
     List<T> &operator=(const List<T> &) = delete;
+
+    void setFirst() {
+        curr = head;
+    }
+
+    T* getCurrent() {
+        if (curr) return curr->data;
+        else return nullptr;
+    }
+
+    void next() {
+        if (curr) {
+            curr = curr->next;
+        }
+    }
 
     void addFirst(T *data) {
         Elem *elem = new Elem(data, head);

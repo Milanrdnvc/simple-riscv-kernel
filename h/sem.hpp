@@ -6,7 +6,7 @@
 
 class Sem {
 public:
-    Sem (unsigned init): val(init) {}
+    Sem (unsigned init): val(init), closed(false), timedOut(false), timeout(-1) {}
 
     int semWait();
     int semSignal();
@@ -40,10 +40,18 @@ public:
 private:
     int val;
     bool closed;
+    bool timedOut;
+    time_t timeout;
     List<TCB> blocked;
+
+    static List<Sem> allSemaphores;
+
+    static int test;
 
     void block();
     void unblock();
+
+    friend class RISCV;
 };
 
 #endif
