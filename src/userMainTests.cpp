@@ -88,7 +88,7 @@ void userMainTests() {
             break;
         case 6:
 #if LEVEL_4_IMPLEMENTED == 1
-            //testConsumerProducer();
+            testConsumerProducer();
             printString("TEST 6 (zadatak 4. CPP API i asinhrona promena konteksta)\n");
 #endif
             break;
