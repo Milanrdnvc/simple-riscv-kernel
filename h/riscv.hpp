@@ -104,6 +104,9 @@ public:
     // change a0 on the stack
     static void returnSysCall(size_t retVal);
 
+    // halt the CPU
+    static void halt();
+
 private:
     // interrupt handler
     static void handleInterruptRoutine();
@@ -228,6 +231,12 @@ inline void RISCV::ms_sstatus(size_t mask) {
 inline void RISCV::returnSysCall(size_t retVal) {
     __asm__ volatile("mv t0, %0" : : "r" (retVal));
     __asm__ volatile ("sw t0, 80(x8)");
+}
+
+inline void RISCV::halt() {
+    __asm__ volatile("li t0, 0x5555");
+    __asm__ volatile("li t1, 0x100000");
+    __asm__ volatile("sw t0, 0(t1)");
 }
 
 // read register stval

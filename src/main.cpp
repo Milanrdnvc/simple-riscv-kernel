@@ -31,4 +31,6 @@ void main() {
     for (auto &thread : threads) {
         delete thread;
     }
+
+    RISCV::halt();
 }
