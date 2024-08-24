@@ -56,6 +56,7 @@ void RISCV::handleInterruptRoutine() {
             TCB::dispatch();
             w_sepc(sepc);
             w_sstatus(sstatus);
+            w_scause(scause);
         }
 
     } else if (scause == 0x8000000000000009UL) {
@@ -182,10 +183,10 @@ void RISCV::handleInterruptRoutine() {
 
         w_sepc(sepc);
         w_sstatus(sstatus);
+        w_scause(scause);
     } else {
         // unexpected trap cause
         size_t volatile sepc = r_sepc();
-        size_t volatile scause = r_scause();
         printString("Exception! scause: ");
         printInt(scause);
         printString("\n sepc: ");
