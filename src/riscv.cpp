@@ -42,8 +42,7 @@ void RISCV::handleInterruptRoutine() {
         while (TCB::sleepingThreads.getCurrent()) {
             TCB::sleepingThreads.getCurrent()->timeSleeping--;
             if (TCB::sleepingThreads.getCurrent()->timeSleeping == 0) {
-                Scheduler::put(TCB::sleepingThreads.getCurrent());
-                // also need to remove from the list
+                Scheduler::put(TCB::sleepingThreads.removeCurrent());
             }
             TCB::sleepingThreads.next();
         }

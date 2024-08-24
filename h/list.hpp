@@ -31,9 +31,9 @@ private:
         }
     };
 
-    Elem *head, *tail, *curr;
+    Elem *head, *tail, *curr, *prev;
 public:
-    List() : head(0), tail(0), curr(0) {}
+    List() : head(0), tail(0), curr(0), prev(0) {}
 
     List(const List<T> &) = delete;
 
@@ -41,15 +41,43 @@ public:
 
     void setFirst() {
         curr = head;
+        prev = 0;
     }
 
     T* getCurrent() {
         if (curr) return curr->data;
-        else return nullptr;
+        else return 0;
+    }
+
+    T* removeCurrent() {
+        if (!curr) return 0;
+
+        if (curr == head) {
+            head = head->next;
+            if (!head) tail = 0;
+            T* ret = curr->data;
+            delete curr;
+            return ret;
+        }
+
+        if (curr == tail) {
+            if (prev) prev->next = 0;
+            else head = 0;
+            tail = prev;
+            T* ret = curr->data;
+            delete curr;
+            return ret;
+        }
+
+        T* ret = curr->data;
+        prev->next = curr->next;
+        delete curr;
+        return ret;
     }
 
     void next() {
         if (curr) {
+            prev = curr;
             curr = curr->next;
         }
     }
