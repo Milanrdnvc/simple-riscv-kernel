@@ -1,8 +1,8 @@
 #ifndef _sem_hpp_
 #define _sem_hpp_
 
-#include "../h/list.hpp"
-#include "../h/tcb.hpp"
+#include "list.hpp"
+#include "tcb.hpp"
 
 class Sem {
 public:

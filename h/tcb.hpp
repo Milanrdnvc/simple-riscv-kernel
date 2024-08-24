@@ -2,9 +2,8 @@
 #define _tcb_hpp_
 
 #include "../lib/hw.h"
-#include "../h/memoryAllocator.hpp"
-#include "../h/scheduler.hpp"
-#include "../h/riscv.hpp"
+#include "memoryAllocator.hpp"
+#include "list.hpp"
 
 // this implementation was taken from "OS1 Vezbe 7 zadatak 6 riscv context switch 1 synchronous"
 class TCB {

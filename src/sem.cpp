@@ -1,5 +1,5 @@
 #include "../h/sem.hpp"
-#include "../h/printing.hpp"
+#include "../h/scheduler.hpp"
 
 List<Sem> Sem::allSemaphores;
 

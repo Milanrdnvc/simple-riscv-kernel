@@ -1,8 +1,5 @@
 #include "../h/cons.hpp"
 #include "../h/printing.hpp"
-#include "../h/tcb.hpp"
-#include "../h/memoryAllocator.hpp"
-#include "../h/consoleBuffer.hpp"
 
 ConsoleBuffer* Cons::outputBuffer = new ConsoleBuffer(256);
 ConsoleBuffer* Cons::inputBuffer = new ConsoleBuffer(256);

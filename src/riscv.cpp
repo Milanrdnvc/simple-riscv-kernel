@@ -4,6 +4,7 @@
 #include "../h/tcb.hpp"
 #include "../h/printing.hpp"
 #include "../h/sem.hpp"
+#include "../h/scheduler.hpp"
 
 void RISCV::popSppSpie() {
      mc_sstatus(SSTATUS_SPP);

@@ -1,4 +1,6 @@
 #include "../h/tcb.hpp"
+#include "../h/scheduler.hpp"
+#include "../h/riscv.hpp"
 
 TCB* TCB::runningThread = nullptr;
 

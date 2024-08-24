@@ -2,7 +2,7 @@
 #define _list_hpp_
 
 #include "../lib/hw.h"
-#include "../h/memoryAllocator.hpp"
+#include "memoryAllocator.hpp"
 
 // this implementation was taken from "OS1 Vezbe 7 zadatak 6 riscv context switch 1 synchronous"
 template<typename T>
