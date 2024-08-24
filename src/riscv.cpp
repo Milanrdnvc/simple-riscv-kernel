@@ -11,6 +11,11 @@ void RISCV::popSppSpie() {
     __asm__ volatile("sret");
 }
 
+void RISCV::systemPopSppSpie() {
+    __asm__ volatile("csrw sepc, ra");
+    __asm__ volatile("sret");
+}
+
 void RISCV::handleInterruptRoutine() {
     size_t volatile scause = r_scause();
     size_t volatile code = r_a0();

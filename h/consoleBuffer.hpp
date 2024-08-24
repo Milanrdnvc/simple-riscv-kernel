@@ -1,7 +1,7 @@
 #ifndef _consoleBuffer_hpp_
 #define _consoleBuffer_hpp_
 
-#include "../h/sem.hpp"
+#include "sem.hpp"
 
 class ConsoleBuffer {
 public:
@@ -21,6 +21,5 @@ private:
     Sem* mutexHead;
     Sem* mutexTail;
 };
-
 
 #endif

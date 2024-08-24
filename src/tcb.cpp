@@ -6,13 +6,13 @@ size_t TCB::timeSliceCounter = 0;
 
 List<TCB> TCB::sleepingThreads;
 
-TCB::TCB(Body body, void *arg, char *stackSpace) {
+TCB::TCB(Body body, void *arg, char *stackSpace, bool systemMode) {
     this->body = body;
     this->stack = stackSpace;
     this->arg = arg;
     this->finished = false;
     this->context = {
-            (size_t)threadWrapper,
+            !systemMode ? (size_t)threadWrapper : (size_t)systemThreadWrapper,
             stack ? (size_t)&stack[DEFAULT_STACK_SIZE] : 0
     };
     if (body) Scheduler::put(this);
@@ -44,7 +44,7 @@ void TCB::yield() {
 }
 
 int TCB::createThread(TCB** handle, Body body, void* arg, char* stackSpace) {
-    TCB* newThread = new TCB(body, arg, stackSpace);
+    TCB* newThread = new TCB(body, arg, stackSpace, false);
     if (!newThread) {
         *handle = nullptr;
         return -1;
@@ -55,6 +55,14 @@ int TCB::createThread(TCB** handle, Body body, void* arg, char* stackSpace) {
 
 void TCB::threadWrapper() {
     RISCV::popSppSpie();
+    runningThread->body(runningThread->arg);
+    runningThread->setFinished(true);
+    RISCV::w_a0(0x13);
+    yield();
+}
+
+void TCB::systemThreadWrapper() {
+    RISCV::systemPopSppSpie();
     runningThread->body(runningThread->arg);
     runningThread->setFinished(true);
     RISCV::w_a0(0x13);

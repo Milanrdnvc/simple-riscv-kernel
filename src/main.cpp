@@ -2,6 +2,7 @@
 #include "../h/riscv.hpp"
 #include "../h/syscall_c.h"
 #include "../h/tcb.hpp"
+#include "../h/cons.hpp"
 
 void userMain();
 
@@ -17,9 +18,14 @@ void main() {
     MemoryAllocator::memInit();
     RISCV::w_stvec((size_t)(&RISCV::interruptRoutine));
 
-    thread_t threads[2];
+    thread_t threads[4];
     thread_create(&threads[0], nullptr, nullptr);
     TCB::runningThread = threads[0]; // must be init. imm. after we create a thread for main
+
+    // kernel threads for interacting with terminal
+    Cons::startPutcThr(&threads[2]);
+//    Cons::startGetcThr();
+
     thread_create(&threads[1], &userMainWrapper, nullptr);
 
     RISCV::ms_sstatus(RISCV::SSTATUS_SIE);

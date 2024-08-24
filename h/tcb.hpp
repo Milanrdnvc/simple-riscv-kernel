@@ -6,8 +6,6 @@
 #include "../h/scheduler.hpp"
 #include "../h/riscv.hpp"
 
-class Sem;
-
 // this implementation was taken from "OS1 Vezbe 7 zadatak 6 riscv context switch 1 synchronous"
 class TCB {
 public:
@@ -40,7 +38,7 @@ public:
 
     ~TCB();
 private:
-    TCB(Body body, void* arg, char* stackSpace);
+    TCB(Body body, void* arg, char* stackSpace, bool systemMode);
 
     struct Context {
         size_t ra;
@@ -66,8 +64,11 @@ private:
 
     static void threadWrapper();
 
+    static void systemThreadWrapper();
+
     friend class RISCV;
     friend class Sem;
+    friend class Cons;
 };
 
 #endif

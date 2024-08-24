@@ -101,6 +101,9 @@ public:
     // pop sstatus.spp and sstatus.spie bits
     static void popSppSpie();
 
+    // pop sstatuis.spp and sstatus.spie bits but remain in system mode
+    static void systemPopSppSpie();
+
     // change a0 on the stack
     static void returnSysCall(size_t retVal);
 
