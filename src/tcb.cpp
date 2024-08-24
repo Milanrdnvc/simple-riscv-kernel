@@ -4,6 +4,8 @@ TCB* TCB::runningThread = nullptr;
 
 size_t TCB::timeSliceCounter = 0;
 
+List<TCB> TCB::sleepingThreads;
+
 TCB::TCB(Body body, void *arg, char *stackSpace) {
     this->body = body;
     this->stack = stackSpace;
@@ -18,6 +20,10 @@ TCB::TCB(Body body, void *arg, char *stackSpace) {
 
 TCB::~TCB() {
     MemoryAllocator::memFree(stack);
+}
+
+void TCB::timeSleep(time_t time) {
+    return;
 }
 
 void TCB::dispatch() {

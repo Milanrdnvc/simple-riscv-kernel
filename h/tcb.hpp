@@ -54,6 +54,11 @@ private:
     Context context;
     bool finished;
     void* arg;
+    time_t timeSleeping;
+
+    static List<TCB> sleepingThreads;
+
+    static void timeSleep(time_t time);
 
     static void contextSwitch(Context *oldContext, Context *runningContext);
 

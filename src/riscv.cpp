@@ -23,8 +23,8 @@ void RISCV::handleInterruptRoutine() {
         // timer interrupt
         mc_sip(SIP_SSIP);
 
+        // logic for sem_timedwait
         Sem::allSemaphores.setFirst();
-
         while (Sem::allSemaphores.getCurrent()) {
             if (Sem::allSemaphores.getCurrent()->timeout < 0) continue;
             Sem::allSemaphores.getCurrent()->timeout--;
@@ -37,13 +37,13 @@ void RISCV::handleInterruptRoutine() {
             Sem::allSemaphores.next();
         }
 
+        // asynchronous context switch
         TCB::timeSliceCounter++;
-
         if (TCB::timeSliceCounter >= DEFAULT_TIME_SLICE) {
             size_t volatile sepc = r_sepc();
             size_t volatile sstatus = r_sstatus();
             TCB::timeSliceCounter = 0;
-           // TCB::dispatch();
+            TCB::dispatch();
             w_sepc(sepc);
             w_sstatus(sstatus);
         }
@@ -143,6 +143,11 @@ void RISCV::handleInterruptRoutine() {
                 int retVal = id->semTryWait();
 
                 RISCV::returnSysCall((size_t)retVal);
+                break;
+            }
+            case 0x31: {
+                time_t time = (time_t)arg1;
+                TCB::timeSleep(time);
                 break;
             }
             // getc

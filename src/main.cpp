@@ -5,8 +5,11 @@
 
 void userMain();
 
+void userMainTests();
+
 void userMainWrapper(void* arg) {
-    userMain();
+//    userMain();
+    userMainTests();
 }
 
 void main() {

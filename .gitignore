@@ -3,3 +3,6 @@
 build
 kernel
 kernel.asm
+test
+test/*
+src/userMainTests.cpp

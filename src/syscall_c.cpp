@@ -83,6 +83,12 @@ int sem_timedwait(sem_t id, time_t timeout) {
     return retVal;
 }
 
+int time_sleep (time_t time) {
+    if (time <= 0) return -1;
+    sysCall(0x31, (size_t)time);
+    return 0;
+}
+
 char getc() {
     sysCall(0x41);
     char volatile retVal = (char)RISCV::r_a0();
