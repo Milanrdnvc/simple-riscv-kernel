@@ -23,7 +23,12 @@ TCB::~TCB() {
 }
 
 void TCB::timeSleep(time_t time) {
-    return;
+    TCB::runningThread->timeSleeping = time;
+    TCB::sleepingThreads.addFirst(TCB::runningThread);
+
+    TCB* old = TCB::runningThread;
+    TCB::runningThread = Scheduler::get();
+    contextSwitch(&old->context, &TCB::runningThread->context);
 }
 
 void TCB::dispatch() {

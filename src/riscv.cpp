@@ -37,6 +37,17 @@ void RISCV::handleInterruptRoutine() {
             Sem::allSemaphores.next();
         }
 
+        // logic for time_sleep
+        TCB::sleepingThreads.setFirst();
+        while (TCB::sleepingThreads.getCurrent()) {
+            TCB::sleepingThreads.getCurrent()->timeSleeping--;
+            if (TCB::sleepingThreads.getCurrent()->timeSleeping == 0) {
+                Scheduler::put(TCB::sleepingThreads.getCurrent());
+                // also need to remove from the list
+            }
+            TCB::sleepingThreads.next();
+        }
+
         // asynchronous context switch
         TCB::timeSliceCounter++;
         if (TCB::timeSliceCounter >= DEFAULT_TIME_SLICE) {

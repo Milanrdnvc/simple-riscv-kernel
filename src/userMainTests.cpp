@@ -21,13 +21,13 @@
 #include "../test/ConsumerProducer_CPP_Sync_API_test.hpp"
 #endif
 
-//#if LEVEL_4_IMPLEMENTED == 1
+#if LEVEL_4_IMPLEMENTED == 1
 //// TEST 5 (zadatak 4., thread_sleep test C API)
-//#include "../test/ThreadSleep_C_API_test.hpp"
+#include "../test/ThreadSleep_C_API_test.hpp"
 //// TEST 6 (zadatak 4. CPP API i asinhrona promena konteksta)
-//#include "../test/ConsumerProducer_CPP_API_test.hpp"
+#include "../test/ConsumerProducer_CPP_API_test.hpp"
 #include "../test/System_Mode_test.hpp"
-//#endif
+#endif
 
 void userMainTests() {
     printString("Unesite broj testa? [1-7]\n");
@@ -82,7 +82,7 @@ void userMainTests() {
             break;
         case 5:
 #if LEVEL_4_IMPLEMENTED == 1
-           // testSleeping();
+            testSleeping();
             printString("TEST 5 (zadatak 4., thread_sleep test C API)\n");
 #endif
             break;
