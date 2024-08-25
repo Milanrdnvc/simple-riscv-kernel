@@ -11,9 +11,11 @@ private:
     static List<TCB> readyThreadQueue;
 
 public:
-    static TCB *get();
+    static TCB* get();
 
     static void put(TCB *tcb);
+
+    static TCB* peekFirst();
 };
 
 #endif

@@ -70,3 +70,7 @@ void TCB::systemThreadWrapper() {
     RISCV::w_a0(0x13);
     yield();
 }
+
+bool TCB::schedulerIsEmpty() {
+    return Scheduler::peekFirst() == nullptr;
+}

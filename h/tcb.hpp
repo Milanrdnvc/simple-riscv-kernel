@@ -19,6 +19,8 @@ public:
 
     static void dispatch();
 
+    static bool schedulerIsEmpty();
+
     void* operator new(size_t size) {
         return MemoryAllocator::memAlloc(size);
     }

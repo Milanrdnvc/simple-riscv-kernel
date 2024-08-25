@@ -30,7 +30,7 @@ void main() {
 
     RISCV::ms_sstatus(RISCV::SSTATUS_SIE);
 
-    while (!threads[1]->getFinished()) {
+    while (!threads[1]->getFinished() || !TCB::schedulerIsEmpty()) {
         thread_dispatch();
     }
 

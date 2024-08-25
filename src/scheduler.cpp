@@ -9,3 +9,7 @@ TCB *Scheduler::get() {
 void Scheduler::put(TCB *tcb) {
     readyThreadQueue.addLast(tcb);
 }
+
+TCB* Scheduler::peekFirst() {
+    return readyThreadQueue.peekFirst();
+}

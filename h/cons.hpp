@@ -13,6 +13,7 @@ public:
     static void setGetcBuffer();
 
     static void inputBufferPut(char c);
+    static ConsoleBuffer* getOutputBuffer();
 private:
     static ConsoleBuffer* outputBuffer;
     static ConsoleBuffer* inputBuffer;

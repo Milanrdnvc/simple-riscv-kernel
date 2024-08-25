@@ -41,3 +41,7 @@ void Cons::setGetcBuffer() {
 void Cons::inputBufferPut(char c) {
     inputBuffer->put(c);
 }
+
+ConsoleBuffer* Cons::getOutputBuffer() {
+    return outputBuffer;
+}
