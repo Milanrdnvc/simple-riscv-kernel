@@ -4,8 +4,6 @@
 #include "consoleBuffer.hpp"
 #include "syscall_c.h"
 
-//class ConsoleBuffer;
-
 class Cons {
 public:
     static void consPutc(char c);

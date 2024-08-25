@@ -1,25 +1,23 @@
 #include "../h/cons.hpp"
-#include "../h/printing.hpp"
 
-ConsoleBuffer* Cons::outputBuffer = new ConsoleBuffer(256);
-ConsoleBuffer* Cons::inputBuffer = new ConsoleBuffer(256);
+ConsoleBuffer* Cons::outputBuffer;
+ConsoleBuffer* Cons::inputBuffer;
 
 void Cons::consPutc(char c) {
     outputBuffer->put(c);
 }
 
 void Cons::putcThr(void* arg) {
-    // polling
-    for (int i = 0; i < 10; i++) {
-        printString("PUTC THREAD TEST\n");
-        if (i == 5) {
-            __asm__ volatile("csrr t6, sepc");
-            printString("PUTC THREAD EXECUTED CSRR\n");
-        }
+    while (true) {
+        // polling
+        while (!(*((char*)CONSOLE_STATUS) & 0x20)) {}
+        *((char*)CONSOLE_TX_DATA) = outputBuffer->get();
     }
 }
 
 int Cons::startPutcThr(thread_t* handle) {
+    outputBuffer = new ConsoleBuffer(256);
+
     char* stackSpace = (char*)MemoryAllocator::memAlloc(DEFAULT_STACK_SIZE);
     if (!stackSpace) return -1;
     TCB* thr = new TCB(putcThr, nullptr, stackSpace, true);

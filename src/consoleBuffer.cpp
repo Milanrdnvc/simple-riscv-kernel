@@ -1,4 +1,6 @@
 #include "../h/consoleBuffer.hpp"
+#include "../h/printing.hpp"
+#include "../lib/console.h"
 
 ConsoleBuffer::ConsoleBuffer(int cap) : cap(cap), head(0), tail(0) {
     buffer = new char[cap];
@@ -34,7 +36,7 @@ char ConsoleBuffer::get() {
     mutexHead->semWait();
     char ret = buffer[head];
     head = (head + 1) % cap;
-    mutexHead->semWait();
+    mutexHead->semSignal();
     spaceAvailable->semSignal();
     return ret;
 }

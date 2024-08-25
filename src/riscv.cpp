@@ -5,6 +5,7 @@
 #include "../h/printing.hpp"
 #include "../h/sem.hpp"
 #include "../h/scheduler.hpp"
+#include "../h/cons.hpp"
 
 void RISCV::popSppSpie() {
      mc_sstatus(SSTATUS_SPP);
@@ -177,7 +178,7 @@ void RISCV::handleInterruptRoutine() {
             // putc
             case 0x42: {
                 char c = (char)arg1;
-                __putc(c);
+                Cons::consPutc(c);
                 break;
             }
             // unsupported system call code
