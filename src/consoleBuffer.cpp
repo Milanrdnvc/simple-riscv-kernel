@@ -1,5 +1,4 @@
 #include "../h/consoleBuffer.hpp"
-#include "../h/syscall_cpp.hpp"
 
 ConsoleBuffer::ConsoleBuffer(int cap) : cap(cap), head(0), tail(0) {
     buffer = new char[cap];
@@ -22,27 +21,20 @@ ConsoleBuffer::~ConsoleBuffer() {
 }
 
 void ConsoleBuffer::put(char c) {
-    sem_wait(spaceAvailable);
-
-    sem_wait(mutexTail);
+    spaceAvailable->semWait();
+    mutexTail->semWait();
     buffer[tail] = c;
     tail = (tail + 1) % cap;
-    sem_signal(mutexTail);
-
-    sem_signal(itemAvailable);
-
+    mutexTail->semSignal();
+    itemAvailable->semSignal();
 }
 
 char ConsoleBuffer::get() {
-    sem_wait(itemAvailable);
-
-    sem_wait(mutexHead);
-
+    itemAvailable->semWait();
+    mutexHead->semWait();
     int ret = buffer[head];
     head = (head + 1) % cap;
-    sem_signal(mutexHead);
-
-    sem_signal(spaceAvailable);
-
+    mutexHead->semWait();
+    spaceAvailable->semSignal();
     return ret;
 }
