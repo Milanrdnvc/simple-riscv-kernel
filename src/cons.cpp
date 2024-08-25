@@ -7,10 +7,14 @@ void Cons::consPutc(char c) {
     outputBuffer->put(c);
 }
 
+char Cons::consGetc() {
+    return inputBuffer->get();
+}
+
 void Cons::putcThr(void* arg) {
     while (true) {
         // polling
-        while (!(*((char*)CONSOLE_STATUS) & 0x20)) {}
+        while (!(*((char*)CONSOLE_STATUS) & CONSOLE_TX_STATUS_BIT)) {}
         *((char*)CONSOLE_TX_DATA) = outputBuffer->get();
     }
 }
@@ -28,4 +32,12 @@ int Cons::startPutcThr(thread_t* handle) {
 
     *handle = thr;
     return 0;
+}
+
+void Cons::setGetcBuffer() {
+    inputBuffer = new ConsoleBuffer(256);
+}
+
+void Cons::inputBufferPut(char c) {
+    inputBuffer->put(c);
 }

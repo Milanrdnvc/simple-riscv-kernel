@@ -9,8 +9,8 @@ void userMain();
 void userMainTests();
 
 void userMainWrapper(void* arg) {
-//    userMain();
-    userMainTests();
+    userMain();
+//    userMainTests();
 }
 
 void main() {
@@ -22,9 +22,9 @@ void main() {
     thread_create(&threads[0], nullptr, nullptr);
     TCB::runningThread = threads[0]; // must be init. imm. after we create a thread for main
 
-    // kernel threads for interacting with terminal
+    // terminal thread for putc and initialize buffer for getc
+    Cons::setGetcBuffer();
     Cons::startPutcThr(&threads[2]);
-//    Cons::startGetcThr();
 
     thread_create(&threads[1], &userMainWrapper, nullptr);
 

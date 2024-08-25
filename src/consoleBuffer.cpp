@@ -1,6 +1,4 @@
 #include "../h/consoleBuffer.hpp"
-#include "../h/printing.hpp"
-#include "../lib/console.h"
 
 ConsoleBuffer::ConsoleBuffer(int cap) : cap(cap), head(0), tail(0) {
     buffer = new char[cap];

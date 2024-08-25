@@ -10,7 +10,9 @@ public:
     static char consGetc();
 
     static int startPutcThr(thread_t* handle);
-    static int startGetcThr(thread_t* handle);
+    static void setGetcBuffer();
+
+    static void inputBufferPut(char c);
 private:
     static ConsoleBuffer* outputBuffer;
     static ConsoleBuffer* inputBuffer;

@@ -1,6 +1,5 @@
 #include "../h/riscv.hpp"
 #include "../h/memoryAllocator.hpp"
-#include "../lib/console.h"
 #include "../h/tcb.hpp"
 #include "../h/printing.hpp"
 #include "../h/sem.hpp"
@@ -67,8 +66,19 @@ void RISCV::handleInterruptRoutine() {
         }
 
     } else if (scause == 0x8000000000000009UL) {
-        // console interrupt
-        console_handler();
+        size_t intr = plic_claim();
+        mc_sip(SIP_SEIP);
+
+        //console interrupt
+        if (intr == CONSOLE_IRQ) {
+            // polling
+            if (!(*((char*)CONSOLE_STATUS) & CONSOLE_RX_STATUS_BIT)) return;
+            char c = (char)(*((char*)CONSOLE_RX_DATA));
+            if ((int)c == 13) c = '\n';
+            Cons::inputBufferPut(c);
+        }
+
+        plic_complete(intr);
     } else if (scause == 0x0000000000000008UL || scause == 0x0000000000000009UL) {
         // ecall from system/user mode
         size_t volatile sepc = r_sepc() + 4;
@@ -163,6 +173,7 @@ void RISCV::handleInterruptRoutine() {
                 RISCV::returnSysCall((size_t)retVal);
                 break;
             }
+            // time_sleep
             case 0x31: {
                 time_t time = (time_t)arg1;
                 TCB::timeSleep(time);
@@ -170,7 +181,7 @@ void RISCV::handleInterruptRoutine() {
             }
             // getc
             case 0x41: {
-                char retVal = __getc();
+                char retVal = Cons::consGetc();
 
                 RISCV::returnSysCall((size_t)retVal);
                 break;
