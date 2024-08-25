@@ -32,7 +32,7 @@ void ConsoleBuffer::put(char c) {
 char ConsoleBuffer::get() {
     itemAvailable->semWait();
     mutexHead->semWait();
-    int ret = buffer[head];
+    char ret = buffer[head];
     head = (head + 1) % cap;
     mutexHead->semWait();
     spaceAvailable->semSignal();
