@@ -8,7 +8,7 @@ Welcome to the repository for my Operating Systems 1 project. This project is de
 
 ## Project Overview
 
-This project involves developing a basic operating system kernel that supports time-sharing and preemption. The primary focus is on the core functionalities of the operating system, such as process management, memory management, and handling system calls.
+This project involves developing a basic operating system kernel that supports threads with time-sharing. The primary focus is on the core functionalities of the operating system, such as thread management, memory management, and handling system calls.
 
 ### Key Features:
 - **Thread Management**: Implementation of context switching (synchronous and asynchronous - timer), scheduling, and thread synchronization.
