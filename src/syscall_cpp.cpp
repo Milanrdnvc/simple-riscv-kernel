@@ -75,6 +75,21 @@ int Semaphore::tryWait() {
     return sem_trywait(this->myHandle);
 }
 
+PeriodicThread::PeriodicThread(time_t period): Thread() {
+    this->period = period;
+}
+
+void PeriodicThread::terminate() {
+    period = 0;
+}
+
+void PeriodicThread::run() {
+    while (period != 0) {
+        periodicActivation();
+        if (Thread::sleep(period) < 0) break;
+    }
+}
+
 char Console::getc() {
     return ::getc();
 }
