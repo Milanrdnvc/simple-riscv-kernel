@@ -66,16 +66,17 @@ void RISCV::handleInterruptRoutine() {
         }
 
     } else if (scause == 0x8000000000000009UL) {
-        size_t intr = plic_claim();
+        int intr = plic_claim();
         mc_sip(SIP_SEIP);
 
         //console interrupt
         if (intr == CONSOLE_IRQ) {
             // polling
-            if (!(*((char*)CONSOLE_STATUS) & CONSOLE_RX_STATUS_BIT)) return;
-            char c = (char)(*((char*)CONSOLE_RX_DATA));
-            if ((int)c == 13) c = '\n';
-            Cons::inputBufferPut(c);
+            while ((*((char*)CONSOLE_STATUS) & CONSOLE_RX_STATUS_BIT)) {
+                char c = (char)(*((char*)CONSOLE_RX_DATA));
+                if ((int)c == 13) c = '\n';
+                Cons::inputBufferPut(c);
+            }
         }
 
         plic_complete(intr);
