@@ -19,6 +19,11 @@ void Cons::putcThr(void* arg) {
     }
 }
 
+void Cons::putcS(char c) {
+    while (!(*((char*)CONSOLE_STATUS) & CONSOLE_TX_STATUS_BIT)) {}
+    *((char*)CONSOLE_TX_DATA) = c;
+}
+
 int Cons::startPutcThr(thread_t* handle) {
     outputBuffer = new ConsoleBuffer(256);
 

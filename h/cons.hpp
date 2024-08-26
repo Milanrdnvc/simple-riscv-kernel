@@ -14,12 +14,12 @@ public:
 
     static void inputBufferPut(char c);
     static ConsoleBuffer* getOutputBuffer();
+    static void putcS(char c);
 private:
     static ConsoleBuffer* outputBuffer;
     static ConsoleBuffer* inputBuffer;
 
     static void putcThr(void*);
-    static void getcThr(void*);
 };
 
 #endif

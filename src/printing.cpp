@@ -1,4 +1,5 @@
 #include "../h/printing.hpp"
+#include "../h/cons.hpp"
 
 uint64 lockPrint = 0;
 
@@ -11,6 +12,15 @@ void printString(char const *string)
     while (*string != '\0')
     {
         putc(*string);
+        string++;
+    }
+    UNLOCK();
+}
+
+void printStringS(const char* string) {
+    LOCK();
+    while (*string != '\0') {
+        Cons::putcS(*string);
         string++;
     }
     UNLOCK();
@@ -71,6 +81,33 @@ void printInt(int xx, int base, int sgn)
 
     while(--i >= 0)
         putc(buf[i]);
+
+    UNLOCK();
+}
+
+void printIntS(int xx, int base, int sgn) {
+    LOCK();
+    char buf[16];
+    int i, neg;
+    uint x;
+
+    neg = 0;
+    if(sgn && xx < 0){
+        neg = 1;
+        x = -xx;
+    } else {
+        x = xx;
+    }
+
+    i = 0;
+    do{
+        buf[i++] = digits[x % base];
+    }while((x /= base) != 0);
+    if(neg)
+        buf[i++] = '-';
+
+    while(--i >= 0)
+        Cons::putcS(buf[i]);
 
     UNLOCK();
 }

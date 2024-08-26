@@ -202,7 +202,7 @@ void RISCV::handleInterruptRoutine() {
             }
             // unsupported system call code
             default: {
-                printString("Unsupported system call code.");
+                printStringS("Unsupported system call code.");
                 break;
             }
         }
@@ -213,10 +213,10 @@ void RISCV::handleInterruptRoutine() {
     } else {
         // unexpected trap cause
         size_t volatile sepc = r_sepc();
-        printString("Exception! scause: ");
-        printInt(scause);
-        printString("\n sepc: ");
-        printInt(sepc);
+        printStringS("Exception! scause: ");
+        printIntS(scause);
+        printStringS("\n sepc: ");
+        printIntS(sepc);
         while (true) {}
     }
 }
