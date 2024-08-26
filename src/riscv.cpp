@@ -66,6 +66,9 @@ void RISCV::handleInterruptRoutine() {
         }
 
     } else if (scause == 0x8000000000000009UL) {
+        size_t volatile sepc = r_sepc();
+        size_t volatile sstatus = r_sstatus();
+
         int intr = plic_claim();
         mc_sip(SIP_SEIP);
 
@@ -80,6 +83,10 @@ void RISCV::handleInterruptRoutine() {
         }
 
         plic_complete(intr);
+
+        w_sepc(sepc);
+        w_sstatus(sstatus);
+        w_scause(scause);
     } else if (scause == 0x0000000000000008UL || scause == 0x0000000000000009UL) {
         // ecall from system/user mode
         size_t volatile sepc = r_sepc() + 4;

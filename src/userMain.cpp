@@ -1,5 +1,4 @@
 #include "../h/printing.hpp"
-#include "../h/syscall_c.h"
 
 void userMain() {
     for (int i = 0; i < 10; i++) {

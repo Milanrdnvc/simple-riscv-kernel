@@ -43,8 +43,8 @@ void Thread::dispatch() {
     thread_dispatch();
 }
 
-int Thread::sleep(time_t) {
-    return 0;
+int Thread::sleep(time_t time) {
+    return time_sleep(time);
 }
 
 void Thread::runWrapper(void* thisObj) {
@@ -67,8 +67,8 @@ int Semaphore::signal() {
     return sem_signal(this->myHandle);
 }
 
-int Semaphore::timedWait(time_t) {
-    return 0;
+int Semaphore::timedWait(time_t time) {
+    return sem_timedwait(this->myHandle, time);
 }
 
 int Semaphore::tryWait() {

@@ -9,8 +9,8 @@ void userMain();
 void userMainTests();
 
 void userMainWrapper(void* arg) {
-    userMain();
-//    userMainTests();
+//    userMain();
+    userMainTests();
 }
 
 void main() {
