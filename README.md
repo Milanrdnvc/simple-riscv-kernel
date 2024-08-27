@@ -18,7 +18,7 @@ This project involves developing a basic operating system kernel that supports t
 
 ## Installation
 
-You can clone this repository to your local development environment. There's a makefile script included in the project that's used to compile and build it. You will need to [download a virtual machine](http://os.etf.rs/OS1/projekat/project-base-v1.1.zip) that has all the necessary tools installed in order to be able to run the project. This includes QEMU emulator for emulating a RISC-V CPU as well as an IDE, but you can use any IDE you want.
+You can clone this repository to your local development environment. There's a makefile script included in the project that's used to compile and build it. You will need to [download a virtual machine](http://os.etf.rs/OS1/projekat/project-base-v1.1.zip) that has all the necessary tools installed in order to be able to run the project. This includes QEMU emulator for emulating the RISC-V CPU as well as an IDE, but you can use any IDE you want.
 
 Run the project:
 ```bash
