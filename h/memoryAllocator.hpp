@@ -12,7 +12,7 @@ public:
 private:
     struct FreeMem {
         FreeMem* next;
-        size_t size; // size in blokcs
+        size_t size; // size in blocks
     };
 
     static void tryToMerge(FreeMem* fragment);
